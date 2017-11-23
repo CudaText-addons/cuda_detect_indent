@@ -1,0 +1,9 @@
+[info]
+title=Detect Indent
+desc=Detects indentation (spaces or tabs, tab size) for opened files
+type=cudatext-plugin
+subdir=cuda_detect_indent
+
+[item1]
+section=events
+events=on_open
