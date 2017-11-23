@@ -6,21 +6,19 @@ from cudatext import *
 from functools import partial
 
 MIN_INDENTED_LINES = 10
-MAX_READ_LINES = 30
+MAX_READ_LINES = 40
 
 
-def do_detect(ed, show_message):
+def do_detect(ed):
 
     def do_set_spaces(n):
         ed.set_prop(PROP_TAB_SPACES, True)
         ed.set_prop(PROP_TAB_SIZE, n)
-        if show_message:
-            print("Detect Indent: %d spaces"%n)
+        print("Detect Indent: %d spaces"%n)
 
     def do_set_tabs():
         ed.set_prop(PROP_TAB_SPACES, False)
-        if show_message:
-            print("Detect Indent: tabs")
+        print("Detect Indent: tabs")
 
     nlines = min(MAX_READ_LINES, ed.get_line_count())
     lines = [ed.get_text_line(i) for i in range(nlines)]
@@ -65,4 +63,4 @@ def do_detect(ed, show_message):
 
 class Command:
     def on_open(self, ed_self):
-        do_detect(ed_self, True)
+        do_detect(ed_self)
