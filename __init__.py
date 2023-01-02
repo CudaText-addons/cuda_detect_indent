@@ -13,6 +13,7 @@ MIN_INDENTED_LINES = int(ini_read(fn_config, SECTION, 'min_indented_lines', '10'
 MAX_READ_LINES = int(ini_read(fn_config, SECTION, 'max_read_lines', '40'))
 #print('option MIN_INDENTED_LINES:', MIN_INDENTED_LINES)
 #print('option MAX_READ_LINES:', MAX_READ_LINES)
+MAX_LEN = 2000
 
 
 HOMEDIR = os.path.expanduser('~')
@@ -39,7 +40,7 @@ def do_detect(ed):
         print("Detect Indent for '%s': tabs"%collapse_filename(ed.get_filename()))
 
     nlines = min(MAX_READ_LINES, ed.get_line_count())
-    lines = [ed.get_text_line(i, 2000) for i in range(nlines)]
+    lines = [ed.get_text_line(i, MAX_LEN) for i in range(nlines)]
 
     starts_with_tab = 0
     spaces_list = []
