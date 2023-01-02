@@ -2,6 +2,7 @@
 + show filename in the "Detect Indent:..." console prints
 + show console print "...: undetected" if cannot detect
 + add usage of config file: see readme.txt
+- fix: avoid slowdown if file lines are huge (>2000)
 
 2017.11.23
 initial port
