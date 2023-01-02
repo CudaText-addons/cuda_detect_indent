@@ -2,6 +2,7 @@
 Code is based on Sublime Text's plugin detect_indentation.py
 It is open source at https://github.com/randy3k/sublime-default
 """
+import os
 from cudatext import *
 from functools import partial
 
@@ -9,16 +10,23 @@ MIN_INDENTED_LINES = 10
 MAX_READ_LINES = 40
 
 
+_homedir = os.path.expanduser('~')
+
+def collapse_filename(fn):
+    if (fn+'/').startswith(_homedir+'/'):
+        fn = fn.replace(_homedir, '~', 1)
+    return fn
+
 def do_detect(ed):
 
     def do_set_spaces(n):
         ed.set_prop(PROP_TAB_SPACES, True)
         ed.set_prop(PROP_TAB_SIZE, n)
-        print("Detect Indent: %d spaces"%n)
+        print("Detect Indent for '%s': %d spaces"%(collapse_filename(ed.get_filename()), n))
 
     def do_set_tabs():
         ed.set_prop(PROP_TAB_SPACES, False)
-        print("Detect Indent: tabs")
+        print("Detect Indent for '%s': tabs"%collapse_filename(ed.get_filename()))
 
     nlines = min(MAX_READ_LINES, ed.get_line_count())
     lines = [ed.get_text_line(i) for i in range(nlines)]
