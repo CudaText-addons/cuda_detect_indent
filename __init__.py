@@ -6,15 +6,20 @@ import os
 from cudatext import *
 from functools import partial
 
-MIN_INDENTED_LINES = 10
-MAX_READ_LINES = 40
+fn_config = 'plugins.ini'
+SECTION = 'detect_indent'
+
+MIN_INDENTED_LINES = int(ini_read(fn_config, SECTION, 'min_indented_lines', '10'))
+MAX_READ_LINES = int(ini_read(fn_config, SECTION, 'max_read_lines', '40'))
+#print('option MIN_INDENTED_LINES:', MIN_INDENTED_LINES)
+#print('option MAX_READ_LINES:', MAX_READ_LINES)
 
 
-_homedir = os.path.expanduser('~')
+HOMEDIR = os.path.expanduser('~')
 
 def collapse_filename(fn):
-    if (fn+'/').startswith(_homedir+'/'):
-        fn = fn.replace(_homedir, '~', 1)
+    if (fn+'/').startswith(HOMEDIR+'/'):
+        fn = fn.replace(HOMEDIR, '~', 1)
     return fn
 
 def do_detect(ed):

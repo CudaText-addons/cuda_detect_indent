@@ -1,6 +1,7 @@
 2023.01.02
 + show filename in the "Detect Indent:..." console prints
 + show console print "...: undetected" if cannot detect
++ add usage of config file: see readme.txt
 
 2017.11.23
 initial port
