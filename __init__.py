@@ -18,13 +18,18 @@ def collapse_filename(fn):
     return fn
 
 def do_detect(ed):
+    detected = False
 
     def do_set_spaces(n):
+        nonlocal detected
+        detected = True
         ed.set_prop(PROP_TAB_SPACES, True)
         ed.set_prop(PROP_TAB_SIZE, n)
         print("Detect Indent for '%s': %d spaces"%(collapse_filename(ed.get_filename()), n))
 
     def do_set_tabs():
+        nonlocal detected
+        detected = True
         ed.set_prop(PROP_TAB_SPACES, False)
         print("Detect Indent for '%s': tabs"%collapse_filename(ed.get_filename()))
 
@@ -68,7 +73,11 @@ def do_detect(ed):
         elif starts_with_tab >= 0.8 * indented_lines:
             do_set_tabs()
 
+    if not detected:
+        print("Detect Indent for '%s': undetected"%collapse_filename(ed.get_filename()))
+
 
 class Command:
     def on_open(self, ed_self):
+        #print('on_open:', ed_self.get_filename())
         do_detect(ed_self)
