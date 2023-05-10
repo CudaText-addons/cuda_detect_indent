@@ -8,3 +8,9 @@ homepage=https://github.com/CudaText-addons/cuda_detect_indent
 [item1]
 section=events
 events=on_open
+
+[item10]
+section=commands
+caption=Detect Indent\Config
+method=config
+menu=o

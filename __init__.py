@@ -6,7 +6,7 @@ import os
 from cudatext import *
 from functools import partial
 
-fn_config = 'plugins.ini'
+fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.ini')
 SECTION = 'detect_indent'
 
 MIN_INDENTED_LINES = int(ini_read(fn_config, SECTION, 'min_indented_lines', '10'))
@@ -87,3 +87,15 @@ class Command:
     def on_open(self, ed_self):
         #print('on_open:', ed_self.get_filename())
         do_detect(ed_self)
+
+    def config(self):
+        ini_write(fn_config, SECTION, 'min_indented_lines', str(MIN_INDENTED_LINES))
+        ini_write(fn_config, SECTION, 'max_read_lines', str(MAX_READ_LINES))
+        file_open(fn_config)
+
+        lines = [ed.get_text_line(i) for i in range(ed.get_line_count())]
+        for (i, line) in enumerate(lines):
+            if line=='['+SECTION+']':
+                ed.set_caret(0, i)
+                break
+
