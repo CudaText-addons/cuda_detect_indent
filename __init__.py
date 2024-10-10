@@ -11,10 +11,9 @@ SECTION = 'detect_indent'
 
 MIN_INDENTED_LINES = int(ini_read(fn_config, SECTION, 'min_indented_lines', '10'))
 MAX_READ_LINES = int(ini_read(fn_config, SECTION, 'max_read_lines', '40'))
-#print('option MIN_INDENTED_LINES:', MIN_INDENTED_LINES)
-#print('option MAX_READ_LINES:', MAX_READ_LINES)
-MAX_LEN = 2000
+UNSHOW_UNDETECTED = int(ini_read(fn_config, SECTION, 'unshow_undetected', '0'))
 
+MAX_LEN = 2000
 
 HOMEDIR = os.path.expanduser('~')
 
@@ -79,18 +78,18 @@ def do_detect(ed):
         elif starts_with_tab >= 0.8 * indented_lines:
             do_set_tabs()
 
-    if not detected:
+    if not detected and UNSHOW_UNDETECTED == 0:
         print("Detect Indent for '%s': undetected"%collapse_filename(ed.get_filename()))
 
 
 class Command:
     def on_open(self, ed_self):
-        #print('on_open:', ed_self.get_filename())
         do_detect(ed_self)
 
     def config(self):
         ini_write(fn_config, SECTION, 'min_indented_lines', str(MIN_INDENTED_LINES))
         ini_write(fn_config, SECTION, 'max_read_lines', str(MAX_READ_LINES))
+        ini_write(fn_config, SECTION, 'unshow_undetected', str(UNSHOW_UNDETECTED))
         file_open(fn_config)
 
         lines = [ed.get_text_line(i) for i in range(ed.get_line_count())]
@@ -98,4 +97,3 @@ class Command:
             if line=='['+SECTION+']':
                 ed.set_caret(0, i)
                 break
-
