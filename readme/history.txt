@@ -1,5 +1,5 @@
 2024.10.10
-+ add: option "unshow_undetected" for unshow "undetected" in console
++ add: option "hide_undetected_msg" - hides "undetected" in console
 
 2023.05.10
 + add: command "Options / Settings-plugins / Detect Lines / Config"
