@@ -18,6 +18,7 @@ SECTION = 'detect_indent'
 MIN_INDENTED_LINES = int(ini_read(fn_config, SECTION, 'min_indented_lines', '10'))
 MAX_READ_LINES = int(ini_read(fn_config, SECTION, 'max_read_lines', '40'))
 HIDE_UNDETECTED_MSG = str_to_bool(ini_read(fn_config, SECTION, 'hide_undetected_msg', '0'))
+HIDE_DETECTED_MSG = str_to_bool(ini_read(fn_config, SECTION, 'hide_detected_msg', '0'))
 
 MAX_LEN = 2000
 
@@ -36,13 +37,15 @@ def do_detect(ed):
         detected = True
         ed.set_prop(PROP_TAB_SPACES, True)
         ed.set_prop(PROP_TAB_SIZE, n)
-        print('Detect Indent for "%s": %d spaces' % (collapse_filename(ed.get_filename()), n))
+        if not HIDE_DETECTED_MSG:
+            print('Detect Indent for "%s": %d spaces' % (collapse_filename(ed.get_filename()), n))
 
     def do_set_tabs():
         nonlocal detected
         detected = True
         ed.set_prop(PROP_TAB_SPACES, False)
-        print('Detect Indent for "%s": tabs' % collapse_filename(ed.get_filename()))
+        if not HIDE_DETECTED_MSG:
+            print('Detect Indent for "%s": tabs' % collapse_filename(ed.get_filename()))
 
     nlines = min(MAX_READ_LINES, ed.get_line_count())
     lines = [ed.get_text_line(i, MAX_LEN) for i in range(nlines)]
@@ -96,6 +99,7 @@ class Command:
         ini_write(fn_config, SECTION, 'min_indented_lines', str(MIN_INDENTED_LINES))
         ini_write(fn_config, SECTION, 'max_read_lines', str(MAX_READ_LINES))
         ini_write(fn_config, SECTION, 'hide_undetected_msg', bool_to_str(HIDE_UNDETECTED_MSG))
+        ini_write(fn_config, SECTION, 'hide_detected_msg', bool_to_str(HIDE_DETECTED_MSG))
         file_open(fn_config)
 
         lines = [ed.get_text_line(i) for i in range(ed.get_line_count())]
