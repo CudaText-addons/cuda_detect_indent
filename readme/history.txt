@@ -1,3 +1,6 @@
+2025.10.29
++ add: option "hide_detected_msg" (by @badrelmers)
+
 2024.10.10
 + add: option "hide_undetected_msg" - hides "undetected" in console
 
