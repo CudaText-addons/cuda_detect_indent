@@ -38,14 +38,14 @@ def do_detect(ed):
         ed.set_prop(PROP_TAB_SPACES, True)
         ed.set_prop(PROP_TAB_SIZE, n)
         if not HIDE_DETECTED_MSG:
-            print('Detect Indent for "%s": %d spaces' % (collapse_filename(ed.get_filename()), n))
+            print('Detect Indent for "%s": %d spaces' % (collapse_filename(ed.get_prop(PROP_FN, '')), n))
 
     def do_set_tabs():
         nonlocal detected
         detected = True
         ed.set_prop(PROP_TAB_SPACES, False)
         if not HIDE_DETECTED_MSG:
-            print('Detect Indent for "%s": tabs' % collapse_filename(ed.get_filename()))
+            print('Detect Indent for "%s": tabs' % collapse_filename(ed.get_prop(PROP_FN, '')))
 
     nlines = min(MAX_READ_LINES, ed.get_line_count())
     lines = [ed.get_text_line(i, MAX_LEN) for i in range(nlines)]
@@ -88,7 +88,7 @@ def do_detect(ed):
             do_set_tabs()
 
     if not detected and not HIDE_UNDETECTED_MSG:
-        print("Detect Indent for '%s': undetected"%collapse_filename(ed.get_filename()))
+        print("Detect Indent for '%s': undetected"%collapse_filename(ed.get_prop(PROP_FN, '')))
 
 
 class Command:
